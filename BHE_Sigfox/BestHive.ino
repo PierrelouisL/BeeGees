@@ -1,12 +1,12 @@
 #include <Arduino_HTS221.h>
 
-float Temp_couvain = 35;
-float Temp_cote1 = 31.1;
-float Temp_cote2 = 32.2;
-float Temp_ambiant = 25.5;
-float Poids = 60.1;
-float Batterie = 70.1;
-float Humidity = 30.1;
+float Temp_couvain = 0;
+float Temp_cote1 = 0;
+float Temp_cote2 = 0;
+float Temp_ambiant = 0;
+float Poids = 0;
+float Batterie = 0;
+float Humidity = 0;
 
 void PrintSigfox(){
   char buffer1[50];
@@ -28,8 +28,8 @@ void setup() {
 void loop(){
   
   // read all the sensor values
-  //temperature = HTS.readTemperature();
-  //humidity    = HTS.readHumidity();
+  temperature = HTS.readTemperature();
+  humidity    = HTS.readHumidity();
 
   // print on sigfox
   PrintSigfox();
