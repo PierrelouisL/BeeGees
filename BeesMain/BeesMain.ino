@@ -11,5 +11,4 @@ void loop() {
   delay(1000);
   testBluetooth();
   testGPS();
-  PrintSigfox();
 }
