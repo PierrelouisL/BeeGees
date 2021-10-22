@@ -51,7 +51,7 @@ void PrintSigfox(void);
  */
 void init_HX711();
 void HX711_up();
-void poid_get();
+void get_weight();
 
 /* ----------------------------------------------------
  *  Fonctions liées à Bluetooth.cpp
@@ -62,15 +62,14 @@ void testBluetooth(void);
  *  Fonctions liées à temperature.cpp
  */
 
-void testTemp(void);
+void get_DHT22();
+void get_DS18B20();
+void get_tempboard();
+void get_temp();
 
 /* ----------------------------------------------------
  *  Fonctions liées à GPS.cpp
  */
 void testGPS(void);
-
-
-
-
 
 #endif
