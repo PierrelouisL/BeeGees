@@ -27,7 +27,7 @@ void init_HX711(){
 }
 
 /* --- Version final quand on saura le offset de la ruche 
-void Init_Poids(){
+void init_HX711(){
   Serial.begin(9600);
   scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
 
