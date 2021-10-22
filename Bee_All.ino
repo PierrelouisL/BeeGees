@@ -22,10 +22,12 @@ float poids = 65; // Poids de référence
 void setup()
 {
  Serial.begin(9600);
+ Serial1.begin(9600);
  Serial.println("DHTxx test!");
  dht.begin();
  HTS.begin();
 
+/*
   scale.begin(D2, D3);
   scale.set_scale();
   scale.tare();
@@ -38,13 +40,14 @@ void setup()
   Serial.print("Test = ");
   Serial.println(Offset);
   scale.set_scale(Offset/poids);
-  
+ */ 
 }
 
 float h_dht22;
 float t_dht22;
  
 void GetDHT22data(){ 
+  delay(2000);
  // La lecture du capteur prend 250ms
  // Les valeurs lues peuvet etre vieilles de jusqu'a 2 secondes (le capteur est lent)
   h_dht22 = dht.readHumidity();//on lit l'hygrometrie
@@ -110,7 +113,7 @@ void Fct_maximwire2() {
     } 
    
   } while (discovery.HaveMore());
-
+  delay(1000);
 }
 
 float temperature_carte;
@@ -141,22 +144,23 @@ void poid_get(){
 
 void PrintSigfox(){
   char buffer1[96];
-  sprintf(buffer1, "AT$SF=%03x%03x%03x%03x%03x%03x%03x\n\r", (int)h_dht22*10, (int)t_dht22*10, (int)poid_rep, (int)echantillon[0]*10, (int)echantillon[1]*10, (int)temperature_carte*10, (int)humidity_carte*10);
+  sprintf(buffer1, "AT$SF=%02x%02x%02x%02x%02x%02x%02x\n\r", (int)h_dht22, (int)t_dht22, (int)poid_rep, (int)echantillon[0], (int)echantillon[1], (int)temperature_carte, (int)humidity_carte);
   
   Serial1.write(buffer1);
-  
+  Serial.print("sigufox:\t\n");
   // wait 1 second to print again
-  delay(5000);
+  delay(1000);
 }
 
 //humidity_out::uint:12 temp_couvain::uint:12 poids::uint:12  temp_cote2::uint:12 temp_cote1::uint:12 temperature_ambiant::uint:12 humidity::uint:12 
 void loop() {
-  delay(3000);
+  
   Fct_maximwire2();
   GetDHT22data();
   temp_carte();
-  poid_get();
+  //poid_get();
   PrintSigfox();
+  delay(660000);
 
 
 }
