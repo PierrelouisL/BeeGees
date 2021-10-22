@@ -49,7 +49,9 @@ void PrintSigfox(void);
 /* ----------------------------------------------------
  *  Fonctions liées à Poids.cpp
  */
-void poid_get(void);
+void init_HX711();
+void HX711_up();
+void poid_get();
 
 /* ----------------------------------------------------
  *  Fonctions liées à Bluetooth.cpp
