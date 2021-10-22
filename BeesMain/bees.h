@@ -43,6 +43,7 @@ class Hive{
 /* ----------------------------------------------------
  *  Fonctions liées à Sigfox.cpp
  */
+
 void PrintSigfox(void);
 
 
@@ -62,6 +63,7 @@ void testBluetooth(void);
  *  Fonctions liées à temperature.cpp
  */
 
+void init_tempboard();
 void get_DHT22();
 void get_DS18B20();
 void get_tempboard();
