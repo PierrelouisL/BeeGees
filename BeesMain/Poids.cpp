@@ -3,15 +3,15 @@
 
 HX711 scale;
 
-const int LOADCELL_DOUT_PIN = 2;
-const int LOADCELL_SCK_PIN = 3;
+/*const int LOADCELL_DOUT_PIN = 2; // D2
+const int LOADCELL_SCK_PIN = 3;    // D3 */
 
 float Offset;
 float Weight_ref = 65; // Poids de référence, à enelevé
-float Weight;
+float weight;
 
 void init_HX711(){
-  scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
+  scale.begin(D2, D3);
 
   scale.set_scale();
   scale.tare();
@@ -39,6 +39,6 @@ void HX711_up(){
 }
 void get_weight(){
   scale.wait_ready_retry(3, 500); // Wait for sensor
-  Weight = scale.get_units(10);
+  wseight = scale.get_units(10);
   scale.power_down();             // Sleep mode
 }
