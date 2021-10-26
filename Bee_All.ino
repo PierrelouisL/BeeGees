@@ -26,21 +26,23 @@ void setup()
  Serial.println("DHTxx test!");
  dht.begin();
  HTS.begin();
+ 
 
-/*
+
   scale.begin(D2, D3);
-  scale.set_scale();
-  scale.tare();
-  Serial.println("Veuillez poser le poids");
-  delay(10000);
-  Serial.println("Je calibre bientôt");
-  delay(10000);
-  Serial.println("Je calibre");
-  Offset = scale.get_units(20);
-  Serial.print("Test = ");
-  Serial.println(Offset);
-  scale.set_scale(Offset/poids);
- */ 
+  scale.set_scale(21245.74);
+  //scale.tare();
+//  Serial.println("Veuillez poser le poids");
+//  delay(10000);
+//  Serial.println("Je calibre bientôt");
+//  delay(10000);
+//  Serial.println("Je calibre");
+//  Offset = scale.get_units(20);
+//  Serial.print("Offset = ");
+//  Serial.println(Offset);
+//  scale.set_scale(Offset/poids);
+//  Serial.print("Offset dans le scale = ");
+//  Serial.println(Offset/poids);
 }
 
 float h_dht22;
@@ -120,7 +122,7 @@ float temperature_carte;
 float humidity_carte;
 
 void temp_carte(){
-  temperature_carte = HTS.readTemperature();
+  temperature_carte = HTS.readTemperature()-4;
   humidity_carte    = HTS.readHumidity();
   Serial.print("temperature_carte:");
   Serial.print(temperature_carte);
@@ -129,16 +131,23 @@ void temp_carte(){
   Serial.print("humidity_carte:");
   Serial.print(humidity_carte);
   Serial.println();
+
+  //if(temperature_carte ==0 || humidity_carte == 0){HTS.begin();}
+  if (!HTS.begin()) {  // Initialize HTS22 sensor if not
+    HTS.begin();
+  }
+  
 }
 
 float poid_rep;
 
 void poid_get(){
   Serial.print("Average:\t");
-  poids = scale.get_units(10);
+  poid_rep = scale.get_units(10) -2.79;
   Serial.println(poid_rep, 2);
-
+  
   scale.power_down();              // put the ADC in sleep mode
+  delay(3000);
   scale.power_up();
 }
 
@@ -146,21 +155,24 @@ void PrintSigfox(){
   char buffer1[96];
   sprintf(buffer1, "AT$SF=%02x%02x%02x%02x%02x%02x%02x\n\r", (int)h_dht22, (int)t_dht22, (int)poid_rep, (int)echantillon[0], (int)echantillon[1], (int)temperature_carte, (int)humidity_carte);
   
-  Serial1.write(buffer1);
+  //Serial1.write(buffer1);
   Serial.print("sigufox:\t\n");
+  sprintf(buffer1, "=%02x%02x%02x%02x%02x%02x%02x\n\r", (int)h_dht22, (int)t_dht22, (int)poid_rep, (int)echantillon[0], (int)echantillon[1], (int)temperature_carte, (int)humidity_carte);
+  Serial.print(buffer1);
   // wait 1 second to print again
   delay(1000);
 }
 
-//humidity_out::uint:12 temp_couvain::uint:12 poids::uint:12  temp_cote2::uint:12 temp_cote1::uint:12 temperature_ambiant::uint:12 humidity::uint:12 
+//humidity_out::uint:8 temp_couvain::uint:8 poids::uint:8  temp_cote2::uint:8 temp_cote1::uint:8 temperature_ambiant::uint:8 humidity::uint:8 
 void loop() {
   
+  delay(2000);
   Fct_maximwire2();
   GetDHT22data();
   temp_carte();
-  //poid_get();
+  poid_get();
   PrintSigfox();
-  delay(660000);
+  delay(10000);
 
 
 }
