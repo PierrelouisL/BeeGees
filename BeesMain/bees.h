@@ -9,11 +9,18 @@
 #include <Arduino_HTS221.h>
 #include <HX711.h>
 
-
 #define PIN_BUS 9
 #include <DHT.h>
 #include <DHT_U.h>
 
+typedef struct data{
+  float Temp_couvain;  
+  float Temp_cote[2];    
+  float Temp_ambiant;  
+  float Poids;         
+  float Batterie;
+  float Humidite_couvain;
+}data;
 
 /*classe à implémenter quand pas flemme
  * typedef int sint10 ;
@@ -44,15 +51,16 @@ class Hive{
  *  Fonctions liées à Sigfox.cpp
  */
 
-void PrintSigfox(void);
+void data_10(data *data);
+void Buffer_creation(data data, int *buffer_int_sigfox);
+void PrintSigfox(data data, int buffer_int_sigfox[]);
 
 
 /* ----------------------------------------------------
  *  Fonctions liées à Poids.cpp
  */
 void init_HX711();
-void HX711_up();
-void get_weight();
+void get_weight(data *data_weight);
 
 /* ----------------------------------------------------
  *  Fonctions liées à Bluetooth.cpp
@@ -64,10 +72,9 @@ void testBluetooth(void);
  */
 
 void init_tempboard();
-void get_DHT22();
-void get_DS18B20();
-void get_tempboard();
-void get_temp();
+void get_DHT22(data *data_humiditeCouvain);
+void get_DS18B20(data *data_tempCote);
+void get_tempboard(data *data_tempAmbiant);
 
 /* ----------------------------------------------------
  *  Fonctions liées à GPS.cpp

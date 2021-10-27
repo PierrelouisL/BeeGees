@@ -5,72 +5,123 @@ extern float board_temperature;   // Board Sensor
 extern float weight;              // HX711 Sensor
 extern float h_dht22;             // Humidity DHT22 Sensor 
 
-int Temp_couvain  = (int)echantillon[2]*10;
+void data_10(data *data){
+  data->Temp_couvain     = data->Temp_couvain*10;  
+  data->Temp_cote[0]     = data->Temp_cote[0]*10;
+  data->Temp_cote[1]     = data->Temp_cote[1]*10;       
+  data->Temp_ambiant     = data->Temp_ambiant*10;  
+  data->Poids            = data->Poids*10;         
+  data->Batterie         = data->Batterie*10;
+  data->Humidite_couvain = data->Humidite_couvain*10;
+}
+/*int Temp_couvain  = (int)echantillon[2]*10;
 int Temp_cote1    = (int)echantillon[1]*10;
 int Temp_cote2    = (int)echantillon[0]*10;
 int Temp_ambiant  = (int)board_temperature*10;
-int Poids         = (int)Weight*10;
+int Poids         = (int)weight*10;
 int Batterie      = (int)0*10;
-int Humidity      = (int)h_dht22*10;
+int Humidity      = (int)h_dht22*10;*/
 
-int buffer_int_sigfox[6];
-
-int* Buffer_creation(){
-  int value_array[7] = { Temp_couvain, Temp_cote1, Temp_cote2, Temp_ambiant, Batterie, Humidity, Poids};
-  bool buffer_bit_sigfox[96];
-  int end_buffer = 95;
+void Buffer_creation(data data, int *buffer_int_sigfox){
+  
+  int value_array[7] = { (int)data.Temp_couvain, (int)data.Temp_cote[0], (int)data.Temp_cote[1], 
+                          (int)data.Temp_ambiant, (int)data.Batterie, (int)data.Humidite_couvain, (int)data.Poids};
+  int buffer_bit_sigfox[80];
+  int end_buffer = 79;
   
   for(int i=0; i<6; i++){
     
-    for(int j=0; j<9; j++{
+    for(int j=0; j<10; j++){
       if(value_array[i] > 1023){
-        buffer_sigfox[end_buffer] = 1;
+        buffer_bit_sigfox[end_buffer] = 1;
       }
       else{
         if((value_array[i] % 2) == 0){
-          buffer_sigfox[end_buffer] = 0;
+          buffer_bit_sigfox[end_buffer] = 0;
         }
         else{
-          buffer_sigfox[end_buffer] = 1;
-      }
-      value_array[i]/2;
+          buffer_bit_sigfox[end_buffer] = 1;
+        }
+        value_array[i] = value_array[i]/2;
       }
       end_buffer--;
     }
   } 
-  for(int j=0; j<12; j++{
+  for(int j=0; j<12; j++){
     if((value_array[6] % 2) == 0){
-      buffer_sigfox[end_buffer] = 0;
+      buffer_bit_sigfox[end_buffer] = 0;
     }
       else{
-    buffer_sigfox[end_buffer] = 1;
+    buffer_bit_sigfox[end_buffer] = 1;
     }
-    value_array[i]/2;
+    value_array[6] = value_array[6]/2;
     end_buffer--;
   }
 
   while(end_buffer >= 0){
-    buffer_sigfox[end_buffer] = 0;
+    buffer_bit_sigfox[end_buffer] = 0;
     end_buffer--;
   }
   
-  end_buffer = 96;
+  end_buffer = 79;
   int temp;
   
-  for(int i=5; i>=0; i--){
+  for(int i=4; i>=0; i--){
     temp = 0;
     for(int j=0; j<16; j++){
-      temp = temp + buffer_sigfox[end_buffer]*pow(2, j);
+      temp = temp + buffer_bit_sigfox[end_buffer]*pow(2, j);
       end_buffer--;
     }
     buffer_int_sigfox[i] = temp;
   }
 }
-void PrintSigfox(){ 
+
+void PrintSigfox(data data, int buffer_int_sigfox[]){          //(int buffer_int_sigfox){ 
   delay(100);
-  char buffer_sigfox[96];
+  char buffer_sigfox[30];
   // A modifier ->
-  sprintf(buffer_sigfox, "AT$SF=%04x%04%04x%04x%04x%04x\n\r", buffer_int_sigfox[0], buffer_int_sigfox[1], buffer_int_sigfox[2], buffer_int_sigfox[3], buffer_int_sigfox[4], buffer_int_sigfox[5]);
-  
+  sprintf(buffer_sigfox, "AT$SF=%04x%04x%04x%04x%04x\n\r", buffer_int_sigfox[0], buffer_int_sigfox[1], buffer_int_sigfox[2], buffer_int_sigfox[3], buffer_int_sigfox[4]);
+
   Serial1.write(buffer_sigfox);
+
+  Serial.print("Temp_couvain = ");
+  Serial.println(data.Temp_couvain);
+  Serial.print("Temp_cote1 = ");
+  Serial.println(data.Temp_cote[0]);
+  Serial.print("Temp_cote2 = ");
+  Serial.println(data.Temp_cote[1]);
+  Serial.print("Temp_ambiant = ");
+  Serial.println(data.Temp_ambiant);
+  Serial.print("Poids = ");
+  Serial.println(data.Poids);
+  Serial.print("Batterie = ");
+  Serial.println(data.Batterie);
+  Serial.print("Humidity = ");
+  Serial.println(data.Humidite_couvain);
 }
+
+
+// Sigfox CallBack
+//poids:1:uint:12::0 humidity:2:uint:10::3 batterie:3:uint:10::1 temperature_ambiant:5:uint:10::7 temp_cote2:6:uint:10::5 temp_cote1:7:uint:10::3 temp_couvain:8:uint:10::1// body
+//{ 
+//  "temperature-couvain" : {"value":"{customData#temp_couvain}"}, 
+//  "temperature-cote-couvain-1" : {"value":"{customData#temp_cote1}"}, 
+//  "temperature-cote-couvain-2" : {"value":"{customData#temp_cote2}"}, 
+//  "temperature-ambiant" : {"value":"{customData#temperature_ambiant}"},  
+//  "batterie" : {"value":"{customData#batterie}"}, 
+//  "humidity" : {"value":"{customData#humidity}"},
+//  "poids" : {"value":"{customData#poids}"}
+//}
+
+// Thomas
+//{ 
+//  "temperature-couvain" : {"value":"{customData#temp_couvain}"}, 
+//  "temperature-cote-couvain-1" : {"value":"{customData#temp_cote1}"}, 
+//  "temperature-cote-couvain-2" : {"value":"{customData#temp_cote2}"}, 
+//  "temperature-ambiant" : {"value":"{customData#temperature_ambiant}"},  
+//  "humidity" : {"value":"{customData#humidity}"},
+//  "humidity-couvain" :{"value":"{customData#humidity_c}"},
+//  "poids" : {"value":"{customData#poids}"}
+//}
+
+// humidity::uint:8 batterie::uint:8 poids::uint:8 temperature_ambiant::uint:8 temp_cote2::uint:8 temp_cote1::uint:8 temp_couvain::uint:8

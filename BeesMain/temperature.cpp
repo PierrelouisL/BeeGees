@@ -16,29 +16,31 @@ DHT dht(DHTPIN, DHTTYPE);//déclaration du capteur
 MaximWire::Bus bus(PIN_BUS);
 MaximWire::DS18B20 device;
 
-float h_dht22;
-float temperature_carte;
+//float h_dht22;
+//float board_temperature;
 
-float echantillon[3];// echantillon des 3 capteurs float, apres get_DS18B20()
+//float echantillon[3];// echantillon des 3 capteurs float, apres get_DS18B20()
 
 void init_tempboard(){
   HTS.begin();
   dht.begin();
 }
 
-void get_DHT22(){ 
+void get_DHT22(data *data_DHT){ 
   // La lecture du capteur prend 250ms
   // Les valeurs lues peuvet etre vieilles de jusqu'a 2 secondes (le capteur est lent)
-  h_dht22 = dht.readHumidity();//on lit l'hygrometrie
+
+  data_DHT->Temp_couvain = dht.readTemperature();  //on lit la temperature en celsius (par defaut)
+  data_DHT->Humidite_couvain = dht.readHumidity(); //on lit l'hygrometrie
 }
 
-void get_DS18B20(){
+void get_DS18B20(data *data_tempCote){
   unsigned short nbr_sensors = 1;
   float temp;
   
   MaximWire::Discovery discovery = bus.Discover();
   do {
-    if (nbr_sensors > 3){
+    if (nbr_sensors > 2){
       break;
     }
     MaximWire::Address address;
@@ -46,7 +48,7 @@ void get_DS18B20(){
         if (address.GetModelCode() == MaximWire::DS18B20::MODEL_CODE){
           MaximWire::DS18B20 device(address);
           temp = device.GetTemperature<float>(bus);
-          echantillon[nbr_sensors - 1] = temp;
+          data_tempCote->Temp_cote[nbr_sensors - 1] = temp;
           device.Update(bus);
         }
     nbr_sensors++;
@@ -54,13 +56,11 @@ void get_DS18B20(){
   } while (discovery.HaveMore());
 }
 
-void get_tempboard(){
-  temperature_carte = HTS.readTemperature();
-}
+void get_tempboard(data *data_tempAmbiant){
 
-void get_temp(){
-  delay(3000);
-  get_DS18B20();
-  get_DHT22();
-  get_tempboard();
+  if (!HTS.begin()) {  // Initialize HTS22 sensor if not
+    HTS.begin();
+    delay(2000);
+  }
+  data_tempAmbiant->Temp_ambiant = HTS.readTemperature();
 }

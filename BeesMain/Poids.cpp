@@ -3,15 +3,14 @@
 
 HX711 scale;
 
-/*const int LOADCELL_DOUT_PIN = 2; // D2
-const int LOADCELL_SCK_PIN = 3;    // D3 */
+float Offset = 21245.74; // Offset pour 65kg
 
-float Offset;
+/*
 float Weight_ref = 65; // Poids de référence, à enelevé
 float weight;
 
 void init_HX711(){
-  scale.begin(D2, D3);
+  scale.begin(D2, D3);  // LOADCELL_DOUT_PIN = D2, LOADCELL_SCK_PIN = D3;
 
   scale.set_scale();
   scale.tare();
@@ -24,21 +23,20 @@ void init_HX711(){
   Serial.println("Je calibre");
   Offset = scale.get_units(20);
   scale.set_scale(Offset/Weight_ref);
-}
+}*/
 
-/* --- Version final quand on saura le offset de la ruche 
+// --- Version final quand on saura le offset de la ruche 
 void init_HX711(){
   Serial.begin(9600);
-  scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
+  scale.begin(D2, D3);  // LOADCELL_DOUT_PIN = D2, LOADCELL_SCK_PIN = D3;
 
   scale.set_scale(Offset);
-  scale.tare();
-}*/
-void HX711_up(){
-  scale.power_up();               // Wake up
 }
-void get_weight(){
+  
+void get_weight(data *data_weight){
+  scale.power_up();               // Wake up
+  delay(3000);
   scale.wait_ready_retry(3, 500); // Wait for sensor
-  wseight = scale.get_units(10);
+  data_weight->Poids = scale.get_units(10) - 2.7;
   scale.power_down();             // Sleep mode
 }
