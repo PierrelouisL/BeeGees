@@ -33,6 +33,7 @@ void loop() {
     Serial.print(buffer_int_sigfox[i]);
     Serial.print(" - ");
   }
+  Serial.println("");
   PrintSigfox(Alldata, buffer_int_sigfox);
   Serial.println("Fin du print");
   delay(10000); // 660000 pour 11 mins
