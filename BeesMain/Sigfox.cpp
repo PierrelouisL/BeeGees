@@ -1,10 +1,5 @@
 #include "bees.h"
 
-extern float echantillon[3];      // DS18B20 Sensor
-extern float board_temperature;   // Board Sensor
-extern float weight;              // HX711 Sensor
-extern float h_dht22;             // Humidity DHT22 Sensor 
-
 void data_10(data *data){
   data->Temp_couvain     = data->Temp_couvain*10;  
   data->Temp_cote[0]     = data->Temp_cote[0]*10;
@@ -12,25 +7,20 @@ void data_10(data *data){
   data->Temp_ambiant     = data->Temp_ambiant*10;  
   data->Poids            = data->Poids*10;         
   data->Batterie         = data->Batterie*10;
-  data->Humidite_couvain = data->Humidite_couvain*10;
+  data->Humi_couvain     = data->Humi_couvain*10;
+  data->Humi_ambiant     = data->Humi_ambiant*10;
 }
-/*int Temp_couvain  = (int)echantillon[2]*10;
-int Temp_cote1    = (int)echantillon[1]*10;
-int Temp_cote2    = (int)echantillon[0]*10;
-int Temp_ambiant  = (int)board_temperature*10;
-int Poids         = (int)weight*10;
-int Batterie      = (int)0*10;
-int Humidity      = (int)h_dht22*10;*/
 
 void Buffer_creation(data data, int *buffer_int_sigfox){
   
-  int value_array[7] = { (int)data.Temp_couvain, (int)data.Temp_cote[0], (int)data.Temp_cote[1], 
-                          (int)data.Temp_ambiant, (int)data.Batterie, (int)data.Humidite_couvain, (int)data.Poids};
-  int buffer_bit_sigfox[80];
-  int end_buffer = 79;
-  
-  for(int i=0; i<6; i++){
-    
+  int value_array[NB_value] = {  (int)data.Temp_couvain, (int)data.Temp_cote[0], (int)data.Temp_cote[1], 
+                          (int)data.Temp_ambiant, (int)data.Batterie, 
+                          (int)data.Humi_couvain, (int)data.Humi_ambiant,(int)data.Poids };
+  int buffer_bit_sigfox[NB_bits];
+  int end_buffer = NB_bits-1;
+
+  // Transformation des températures, batterie et humidités sur 10 bits
+  for(int i=0; i<NB_value-1; i++){
     for(int j=0; j<10; j++){
       if(value_array[i] > 1023){
         buffer_bit_sigfox[end_buffer] = 1;
@@ -46,15 +36,16 @@ void Buffer_creation(data data, int *buffer_int_sigfox){
       }
       end_buffer--;
     }
-  } 
+  }
+  // Transformation du poids sur 12 bits
   for(int j=0; j<12; j++){
-    if((value_array[6] % 2) == 0){
+    if((value_array[NB_value-1] % 2) == 0){
       buffer_bit_sigfox[end_buffer] = 0;
     }
       else{
     buffer_bit_sigfox[end_buffer] = 1;
     }
-    value_array[6] = value_array[6]/2;
+    value_array[NB_value-1] = value_array[NB_value-1]/2;
     end_buffer--;
   }
 
@@ -63,10 +54,11 @@ void Buffer_creation(data data, int *buffer_int_sigfox){
     end_buffer--;
   }
   
-  end_buffer = 79;
+  end_buffer = NB_bits-1;
   int temp;
-  
-  for(int i=4; i>=0; i--){
+
+  // Préparation de l'envoie sur Sigfox
+  for(int i=5; i>=0; i--){
     temp = 0;
     for(int j=0; j<16; j++){
       temp = temp + buffer_bit_sigfox[end_buffer]*pow(2, j);
@@ -76,14 +68,15 @@ void Buffer_creation(data data, int *buffer_int_sigfox){
   }
 }
 
-void PrintSigfox(data data, int buffer_int_sigfox[]){          //(int buffer_int_sigfox){ 
+void PrintSigfox(data data, int buffer_int_sigfox[]){        
   delay(100);
-  char buffer_sigfox[30];
+  char buffer_sigfox[50];
   // A modifier ->
-  sprintf(buffer_sigfox, "AT$SF=%04x%04x%04x%04x%04x\n\r", buffer_int_sigfox[0], buffer_int_sigfox[1], buffer_int_sigfox[2], buffer_int_sigfox[3], buffer_int_sigfox[4]);
+  sprintf(buffer_sigfox, "AT$SF=%04x%04x%04x%04x%04x%04x\n\r", buffer_int_sigfox[0], buffer_int_sigfox[1], buffer_int_sigfox[2], buffer_int_sigfox[3], buffer_int_sigfox[4], buffer_int_sigfox[5]);
 
   Serial1.write(buffer_sigfox);
 
+  // Verification
   Serial.print("Temp_couvain = ");
   Serial.println(data.Temp_couvain);
   Serial.print("Temp_cote1 = ");
@@ -96,8 +89,10 @@ void PrintSigfox(data data, int buffer_int_sigfox[]){          //(int buffer_int
   Serial.println(data.Poids);
   Serial.print("Batterie = ");
   Serial.println(data.Batterie);
-  Serial.print("Humidity = ");
-  Serial.println(data.Humidite_couvain);
+  Serial.print("Humidity Couvain = ");
+  Serial.println(data.Humi_couvain);
+  Serial.print("Humidity Ambiant = ");
+  Serial.println(data.Humi_ambiant);
 }
 
 
@@ -123,5 +118,3 @@ void PrintSigfox(data data, int buffer_int_sigfox[]){          //(int buffer_int
 //  "humidity-couvain" :{"value":"{customData#humidity_c}"},
 //  "poids" : {"value":"{customData#poids}"}
 //}
-
-// humidity::uint:8 batterie::uint:8 poids::uint:8 temperature_ambiant::uint:8 temp_cote2::uint:8 temp_cote1::uint:8 temp_couvain::uint:8

@@ -1,17 +1,23 @@
 #ifndef __BEES__
 #define __BEES__
 
-/* ----------------------------------------------------
- *  Variables globales et librairies
- */
+// ----------------------------------------------------
+//  Variables globales et librairies 
 
-#define MAXIMWIRE_EXTERNAL_PULLUP
 #include <Arduino_HTS221.h>
-#include <HX711.h>
 
-#define PIN_BUS 9
-#include <DHT.h>
-#include <DHT_U.h>
+// temperature.cpp global value
+  // DHT Sensor
+  #define DHTPIN 8 // broche ou l'on a branche le capteur
+  #define DHTTYPE DHT22 // DHT 22 (AM2302)
+  // DS18B20 Sensor
+  #define PIN_BUS 9
+  #define MAXIMWIRE_EXTERNAL_PULLUP
+
+// Sigfox.cpp global value
+#define NB_value 8
+#define NB_bits 96
+// ----------------------------------------------------
 
 typedef struct data{
   float Temp_couvain;  
@@ -19,7 +25,8 @@ typedef struct data{
   float Temp_ambiant;  
   float Poids;         
   float Batterie;
-  float Humidite_couvain;
+  float Humi_couvain;
+  float Humi_ambiant;
 }data;
 
 /*classe à implémenter quand pas flemme
@@ -71,14 +78,20 @@ void testBluetooth(void);
  *  Fonctions liées à temperature.cpp
  */
 
-void init_tempboard();
+void init_temp_humi_board();
 void get_DHT22(data *data_humiditeCouvain);
 void get_DS18B20(data *data_tempCote);
-void get_tempboard(data *data_tempAmbiant);
+void get_temp_humi_board(data *data_tempAmbian);
 
 /* ----------------------------------------------------
  *  Fonctions liées à GPS.cpp
  */
 void testGPS(void);
+
+/* ----------------------------------------------------
+ *  Fonctions liées à Batterie.cpp
+ */
+void init_batterie();
+void get_batterie(data *data_batterie);
 
 #endif

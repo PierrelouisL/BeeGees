@@ -1,37 +1,18 @@
 #include "bees.h"
+
 #include <MaximWire.h>
 #include <Arduino_HTS221.h>
 #include <DHT.h>
 #include <DHT_U.h>
 
-#define MAXIMWIRE_EXTERNAL_PULLUP
-
-// DHT Sensor
-#define DHTPIN 8 // broche ou l'on a branche le capteur
-#define DHTTYPE DHT22 // DHT 22 (AM2302)
-DHT dht(DHTPIN, DHTTYPE);//déclaration du capteur
-
-// DS18B20 Sensor
-#define PIN_BUS 9
 MaximWire::Bus bus(PIN_BUS);
 MaximWire::DS18B20 device;
+  
+DHT dht(DHTPIN, DHTTYPE);//déclaration du capteur
 
-//float h_dht22;
-//float board_temperature;
-
-//float echantillon[3];// echantillon des 3 capteurs float, apres get_DS18B20()
-
-void init_tempboard(){
+void init_temp_humi_board(){
   HTS.begin();
   dht.begin();
-}
-
-void get_DHT22(data *data_DHT){ 
-  // La lecture du capteur prend 250ms
-  // Les valeurs lues peuvet etre vieilles de jusqu'a 2 secondes (le capteur est lent)
-
-  data_DHT->Temp_couvain = dht.readTemperature();  //on lit la temperature en celsius (par defaut)
-  data_DHT->Humidite_couvain = dht.readHumidity(); //on lit l'hygrometrie
 }
 
 void get_DS18B20(data *data_tempCote){
@@ -56,11 +37,16 @@ void get_DS18B20(data *data_tempCote){
   } while (discovery.HaveMore());
 }
 
-void get_tempboard(data *data_tempAmbiant){
+void get_DHT22(data *data_DHT){
+  data_DHT->Temp_couvain = dht.readTemperature();  //on lit la temperature en celsius (par defaut)
+  data_DHT->Humi_couvain = dht.readHumidity(); //on lit l'hygrometrie
+}
 
+void get_temp_humi_board(data *data_temp_humi_Ambiant){
   if (!HTS.begin()) {  // Initialize HTS22 sensor if not
     HTS.begin();
     delay(2000);
   }
-  data_tempAmbiant->Temp_ambiant = HTS.readTemperature();
+  data_temp_humi_Ambiant->Temp_ambiant = HTS.readTemperature();
+  data_temp_humi_Ambiant->Humi_ambiant = HTS.readHumidity();
 }

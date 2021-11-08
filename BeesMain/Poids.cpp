@@ -1,5 +1,6 @@
 #include "bees.h"
-#include "HX711.h"
+
+#include <HX711.h>
 
 HX711 scale;
 
