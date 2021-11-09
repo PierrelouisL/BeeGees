@@ -1,7 +1,7 @@
 #include "bees.h"
 
 int sensorPin = A1;    // select the input pin for the potentiometer
-int ledPin = 13;      // select the pin for the LED
+int ledPin = 13;       // select the pin for the LED
 
 void init_batterie() {
   // declare the ledPin as an OUTPUT:
@@ -11,9 +11,8 @@ void init_batterie() {
 
 void get_batterie(data *data_batterie) {
   float voltage= analogRead(sensorPin) * (3.3 / 1023.0);
-  //Serial.println(voltage);
-  //delay(1000);
-  if(voltage > 2.92){         // Battery over 90%
+  data_batterie->Batterie = (int) voltage*100;
+  /*if(voltage > 2.92){         // Battery over 90%
     data_batterie->Batterie = 90;
   }else if(voltage > 2.8){    //Battery between 60%-90%
     data_batterie->Batterie = 60;
@@ -23,5 +22,5 @@ void get_batterie(data *data_batterie) {
     data_batterie->Batterie = 10;
   }else{                      //Battery under 10%
     data_batterie->Batterie = 1;
-  }
+  }*/
 }

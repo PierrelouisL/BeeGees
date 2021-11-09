@@ -17,16 +17,12 @@ void loop() {
 
   Serial.println("Capteur lets go");
   get_weight(&Alldata);
-  delay(1000);
   get_DHT22(&Alldata);
-  delay(1000);
   get_DS18B20(&Alldata);
-  delay(1000);
   get_temp_humi_board(&Alldata);
-  delay(1000);
   get_batterie(&Alldata);
+
   delay(2000);
-  
   data_10(&Alldata);
   Buffer_creation(Alldata, buffer_int_sigfox);
   for(int i=0; i<6; i++){

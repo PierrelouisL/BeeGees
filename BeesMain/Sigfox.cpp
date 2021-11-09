@@ -6,7 +6,7 @@ void data_10(data *data){
   data->Temp_cote[1]     = data->Temp_cote[1]*10;       
   data->Temp_ambiant     = data->Temp_ambiant*10;  
   data->Poids            = data->Poids*10;         
-  data->Batterie         = data->Batterie*10;
+  data->Batterie         = data->Batterie;
   data->Humi_couvain     = data->Humi_couvain*10;
   data->Humi_ambiant     = data->Humi_ambiant*10;
 }
