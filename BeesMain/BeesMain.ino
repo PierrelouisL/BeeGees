@@ -10,6 +10,17 @@ void setup()
   init_batterie();
 }
 
+void sleepcard(){
+  digitalWrite(PIN_ENABLE_SENSORS_3V3, LOW); // turn off sensors
+  digitalWrite(PIN_ENABLE_I2C_PULLUP, LOW);
+  //NRF_POWER->SYSTEMOFF = 1;
+}
+void UNsleepcard(){
+  digitalWrite(PIN_ENABLE_SENSORS_3V3, HIGH); // turn on sensors
+  digitalWrite(PIN_ENABLE_I2C_PULLUP, HIGH);
+  //NRF_POWER->SYSTEMOFF = 0;
+}
+
 void loop() {
 
   data Alldata = { 0, {0, 0}, 0, 0, 0, 0, 0};
@@ -32,5 +43,8 @@ void loop() {
   Serial.println("");
   PrintSigfox(Alldata, buffer_int_sigfox);
   Serial.println("Fin du print");
-  delay(10000); // 660000 pour 11 mins
+
+  sleepcard();
+  delay(20000); // 660000 pour 11 mins
+  UNsleepcard();
 }
