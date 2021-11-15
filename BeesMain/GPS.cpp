@@ -1,5 +1,5 @@
 #include "bees.h"
 
 void testGPS(){
-  Serial.println("Hello GPS!");
+  //Serial.println("Hello GPS!");
 }

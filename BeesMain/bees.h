@@ -15,18 +15,20 @@
   #define MAXIMWIRE_EXTERNAL_PULLUP
 
 // Sigfox.cpp global value
-#define NB_value 8
 #define NB_bits 96
 // ----------------------------------------------------
 
 typedef struct data{
   float Temp_couvain;  
-  float Temp_cote[2];    
+  float Temp_cote[2];
+  float Batterie;    
   float Temp_ambiant;  
-  float Poids;         
-  float Batterie;
   float Humi_couvain;
   float Humi_ambiant;
+  //float Pression;
+  float Poids;
+  //float Luminosite;
+  //float SON;  
 }data;
 
 /*classe à implémenter quand pas flemme
@@ -93,5 +95,6 @@ void testGPS(void);
  */
 void init_batterie();
 void get_batterie(data *data_batterie);
-
+void sleepcard();
+void UNsleepcard();
 #endif

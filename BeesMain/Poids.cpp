@@ -39,5 +39,8 @@ void get_weight(data *data_weight){
   delay(3000);
   scale.wait_ready_retry(3, 500); // Wait for sensor
   data_weight->Poids = scale.get_units(10) - 2.7;
+  if(data_weight->Poids < 0){
+    data_weight->Poids = 0;
+  }
   scale.power_down();             // Sleep mode
 }
