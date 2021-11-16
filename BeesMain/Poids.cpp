@@ -28,18 +28,17 @@ void init_HX711(){
 
 // --- Version final quand on saura le offset de la ruche 
 void init_HX711(){
-  Serial.begin(9600);
-  scale.begin(D2, D3);  // LOADCELL_DOUT_PIN = D2, LOADCELL_SCK_PIN = D3;
+  scale.begin(D7, D6);  // LOADCELL_DOUT_PIN = D7, LOADCELL_SCK_PIN = D6;
   scale.set_scale(Offset);
 }
   
 void get_weight(data *data_weight){
-  scale.power_up();               // Wake up
+  scale.power_up();               
   delay(3000);
-  scale.wait_ready_retry(3, 500); // Wait for sensor
+  scale.wait_ready_retry(3, 500); 
   data_weight->Poids = scale.get_units(10) - 2.7;
   if(data_weight->Poids < 0){
     data_weight->Poids = 0;
   }
-  scale.power_down();             // Sleep mode
+  scale.power_down();             
 }

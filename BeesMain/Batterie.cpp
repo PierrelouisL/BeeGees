@@ -11,8 +11,8 @@ void init_batterie() {
 
 void get_batterie(data *data_batterie) {
   float voltage= analogRead(sensorPin) * (3.3 / 1023.0) * 100;
-  if(voltage < 260){
-    voltage = 260;
+  if(voltage < 257.65){
+    voltage = 257.65;
   }
   data_batterie->Batterie = (int)voltage;
 }

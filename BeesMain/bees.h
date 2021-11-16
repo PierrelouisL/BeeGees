@@ -6,12 +6,12 @@
 
 #include <Arduino_HTS221.h>
 
-// temperature.cpp global value
+// Temperature.cpp global value
   // DHT Sensor
-  #define DHTPIN 8 // broche ou l'on a branche le capteur
+  #define DHTPIN 4 // broche ou l'on a branche le capteur
   #define DHTTYPE DHT22 // DHT 22 (AM2302)
   // DS18B20 Sensor
-  #define PIN_BUS 9
+  #define PIN_BUS 5
   #define MAXIMWIRE_EXTERNAL_PULLUP
 
 // Sigfox.cpp global value
@@ -30,31 +30,6 @@ typedef struct data{
   float Luminosite;
   float SON;  
 }data;
-
-/*classe à implémenter quand pas flemme
- * typedef int sint10 ;
-
-class Hive{
-  public:
-    Hive(void);
-    sint10 getT1(void){return T1;}
-    sint10 getT2(void){return T2;}
-    sint10 getT3(void){return T3;}
-    sint10 getT0(void){return T0;}
-
-  private:
-    float T1; // Température milieu
-    float T2; // Température coté 
-    float T3; // Température coté 
-    float T0; // Température à l'intérieur milieu de la ruche
-    float H0; // Humidité à l'intérieur de la ruche
-    int batterie; // Niveau de la batterie entre 0 et 100 (en %)
-    float poids; // poids de la ruche
-    int latitude; // coords gps
-    int longitude; // coords gps
-    int delai_scrutation; // délai de scrutation entre les capteurs par le TPL5110
-    // Ajouter variables bluetooth quand il sera fait...
-}*/
 
 /* ----------------------------------------------------
  *  Fonctions liées à Sigfox.cpp
@@ -102,3 +77,28 @@ void init_sensor_board();
 void get_sensor_board(data *data_pression);
 
 #endif
+
+/*classe à implémenter quand pas flemme
+ * typedef int sint10 ;
+
+class Hive{
+  public:
+    Hive(void);
+    sint10 getT1(void){return T1;}
+    sint10 getT2(void){return T2;}
+    sint10 getT3(void){return T3;}
+    sint10 getT0(void){return T0;}
+
+  private:
+    float T1; // Température milieu
+    float T2; // Température coté 
+    float T3; // Température coté 
+    float T0; // Température à l'intérieur milieu de la ruche
+    float H0; // Humidité à l'intérieur de la ruche
+    int batterie; // Niveau de la batterie entre 0 et 100 (en %)
+    float poids; // poids de la ruche
+    int latitude; // coords gps
+    int longitude; // coords gps
+    int delai_scrutation; // délai de scrutation entre les capteurs par le TPL5110
+    // Ajouter variables bluetooth quand il sera fait...
+}*/

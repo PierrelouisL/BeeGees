@@ -1,24 +1,24 @@
 #include "bees.h"
 
 #include <MaximWire.h>
-
 #include <DHT.h>
 #include <DHT_U.h>
 
 MaximWire::Bus bus(PIN_BUS);
 MaximWire::DS18B20 device;
   
-DHT dht(DHTPIN, DHTTYPE);//déclaration du capteur
+DHT dht(DHTPIN, DHTTYPE);
 
 void init_sensor(){
     dht.begin(); 
 }
+
 void get_DS18B20(data *data_tempCote){
   unsigned short nbr_sensors = 1;
   float temp;
   
   MaximWire::Discovery discovery = bus.Discover();
-  do {
+  do{
     if (nbr_sensors > 2){
       break;
     }
@@ -36,6 +36,6 @@ void get_DS18B20(data *data_tempCote){
 }
 
 void get_DHT22(data *data_DHT){
-  data_DHT->Temp_couvain = dht.readTemperature();  //on lit la temperature en celsius (par defaut)
-  data_DHT->Humi_couvain = dht.readHumidity(); //on lit l'hygrometrie
+  data_DHT->Temp_couvain = dht.readTemperature();  
+  data_DHT->Humi_couvain = dht.readHumidity(); 
 }

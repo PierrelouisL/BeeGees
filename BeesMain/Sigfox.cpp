@@ -43,16 +43,10 @@ void Buffer_creation(data data, int *buffer_int_sigfox){
       end_buffer--;
     }
   }
- 
-  if(end_buffer <= 0){
-    Serial.print("end_buffer = ");
-    Serial.println(end_buffer);
-  }
-  else{
-    while(end_buffer >= 0){
-      buffer_bit_sigfox[end_buffer] = 0;
-      end_buffer--;
-    }
+   
+  while(end_buffer >= 0){
+    buffer_bit_sigfox[end_buffer] = 0;
+    end_buffer--;
   }
   
   end_buffer = NB_bits-1;
@@ -70,13 +64,11 @@ void Buffer_creation(data data, int *buffer_int_sigfox){
 
 void PrintSigfox(data data, int buffer_int_sigfox[]){        
   char buffer_sigfox[50];
-  // A modifier ->
   sprintf(buffer_sigfox, "AT$SF=%04x%04x%04x%04x%04x%04x\n\r", buffer_int_sigfox[0], buffer_int_sigfox[1], buffer_int_sigfox[2], buffer_int_sigfox[3], buffer_int_sigfox[4], buffer_int_sigfox[5]);
-
   Serial1.write(buffer_sigfox);
 
   // Verification
-  Serial.print("Temp_couvain = ");      Serial.println(data.Temp_couvain);
+  /*Serial.print("Temp_couvain = ");      Serial.println(data.Temp_couvain);
   Serial.print("Temp_cote1 = ");        Serial.println(data.Temp_cote[0]); 
   Serial.print("Temp_cote2 = ");        Serial.println(data.Temp_cote[1]);
   Serial.print("Temp_ambiant = ");      Serial.println(data.Temp_ambiant);
@@ -86,7 +78,7 @@ void PrintSigfox(data data, int buffer_int_sigfox[]){
   Serial.print("Humidite Ambiant = ");  Serial.println(data.Humi_ambiant);
   Serial.print("Pression = ");          Serial.print(data.Pression);        Serial.println("kPa");
   Serial.print("Luminosite = ");        Serial.println(data.Luminosite);
-  Serial.print("SON = ");               Serial.println(data.SON);
+  Serial.print("SON = ");               Serial.println(data.SON);*/
 }
 
 

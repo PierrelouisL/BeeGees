@@ -9,7 +9,12 @@ void init_sensor_board(){
 }
 
 void get_sensor_board(data *data_board){
-  // read the sensor value
+  if(!HTS.begin()){
+    HTS.begin();
+  }
+  if(!BARO.begin()){
+    BARO.begin();
+  }
   data_board->Pression = BARO.readPressure();
   data_board->Temp_ambiant = HTS.readTemperature();
   data_board->Humi_ambiant = HTS.readHumidity();
