@@ -30,7 +30,6 @@ void init_HX711(){
 void init_HX711(){
   Serial.begin(9600);
   scale.begin(D2, D3);  // LOADCELL_DOUT_PIN = D2, LOADCELL_SCK_PIN = D3;
-
   scale.set_scale(Offset);
 }
   

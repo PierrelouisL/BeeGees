@@ -25,10 +25,10 @@ typedef struct data{
   float Temp_ambiant;  
   float Humi_couvain;
   float Humi_ambiant;
-  //float Pression;
+  float Pression;
   float Poids;
-  //float Luminosite;
-  //float SON;  
+  float Luminosite;
+  float SON;  
 }data;
 
 /*classe à implémenter quand pas flemme
@@ -59,7 +59,6 @@ class Hive{
 /* ----------------------------------------------------
  *  Fonctions liées à Sigfox.cpp
  */
-
 void data_10(data *data);
 void Buffer_creation(data data, int *buffer_int_sigfox);
 void PrintSigfox(data data, int buffer_int_sigfox[]);
@@ -77,13 +76,11 @@ void get_weight(data *data_weight);
 void testBluetooth(void);
 
 /* ----------------------------------------------------
- *  Fonctions liées à temperature.cpp
+ *  Fonctions liées à Temperature.cpp
  */
-
-void init_temp_humi_board();
+void init_sensor();
 void get_DHT22(data *data_humiditeCouvain);
 void get_DS18B20(data *data_tempCote);
-void get_temp_humi_board(data *data_tempAmbian);
 
 /* ----------------------------------------------------
  *  Fonctions liées à GPS.cpp
@@ -97,4 +94,11 @@ void init_batterie();
 void get_batterie(data *data_batterie);
 void sleepcard();
 void UNsleepcard();
+
+/* ----------------------------------------------------
+ *  Fonctions liées à CapteurCarte.cpp
+ */
+void init_sensor_board();
+void get_sensor_board(data *data_pression);
+
 #endif
