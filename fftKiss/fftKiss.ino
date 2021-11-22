@@ -176,7 +176,22 @@ void MaxFreq()
     //printf(" %.i : frq\r\n",int(max_freq*(Fmax*2/N)));
 }
 
+int etat_des_abeille;
 
+void etat_abeilles(){
+  if( (freqMax> 340)&&(freqMax< 450)&&(freqMax2> 340)&&(freqMax2< 450) ){
+    etat_des_abeille=3;
+  }
+  else if( (freqMax> 340)&&(freqMax2> 3000) ){
+    etat_des_abeille=2;
+  }
+  else if( (freqMax> 125)&&(freqMax< 300)&&(freqMax2> 125)&&(freqMax2< 300) ){
+    etat_des_abeille=1;
+  }
+  else
+    etat_des_abeille=0;
+  
+}
  
 void loop() {  
   delay(2000);
@@ -204,7 +219,9 @@ void loop() {
             Serial.println(int(freqMax2*1));// on adapte avec une erreur de 1.5%
             Serial.print("db:");
             Serial.println(20*log10(freqMaxAMP2));
-            
+
+            etat_abeilles();
+            Serial.println(etat_des_abeille);
             // l'erreur de 12% inferieur est sans doute du a la clock
             // de la carte qui n'ai pas presise , aucune idee de pourqoui
             
