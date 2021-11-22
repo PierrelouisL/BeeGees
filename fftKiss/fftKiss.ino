@@ -1,4 +1,4 @@
-#include "mbed.h"
+//#include "mbed.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,7 +14,7 @@
 // definition des constantes
 
 
-#define N 1024 //tableau de taille N
+#define N 2048 //tableau de taille N
 #define Te_us 32
 #define Fmax 16000
 
@@ -40,7 +40,7 @@
 //  Fe=31250 Hz Te=32us Fmax=15625 Hz
 
 // buffer to read samples into, each sample is 16-bits
-short sampleBuffer[1024];
+short sampleBuffer[N];
 
 // number of samples read
 volatile int samplesRead;
@@ -65,7 +65,7 @@ Serial.print("helllooooo333\n");
   // initialize PDM with:
   // - one channel (mono mode)
   // - a 16 kHz sample rate
-  if (!PDM.begin(1, 16000)) {
+  if (!PDM.begin(1, Fmax)) {
     Serial.println("Failed to start PDM!");
     while (1);
   }
@@ -171,8 +171,8 @@ void MaxFreq()
     freqMaxAMP1=sqrt(out[freq1].r*out[freq1].r + out[freq1].i*out[freq1].i );
     freqMaxAMP2=sqrt(out[freq2].r*out[freq2].r + out[freq2].i*out[freq2].i );
         
-    freqMax=int(freq1*(Fmax/N));      
-    freqMax2=int(freq2*(Fmax/N));
+    freqMax=int(freq1*(Fmax/N))*1.12;      
+    freqMax2=int(freq2*(Fmax/N))*1.12;
     //printf(" %.i : frq\r\n",int(max_freq*(Fmax*2/N)));
 }
 
@@ -188,29 +188,25 @@ void loop() {
         if (samplesRead) // si tableau plein
         {
             samplesRead=0;
-            
-            //flipper.detach();// arret de remplissage du tableau            
-            
+                        
             TestFftReal();           
                   
             MaxFreq();// trouver les freq max
-            
-            //flipper.attach_us(getSgnal,Te_us);// re remplissage du tableau
-            
-            // affichache ligne 1
+                        
+            // affichache freq 1
             Serial.print("freq:");
             Serial.println(int(freqMax*1));// on adapte avec une erreur de 1.5%
             Serial.print("db:");
             Serial.println(20*log10(freqMaxAMP1));
  
-            // affichache ligne 2
+            // affichache freq 2
             Serial.print("freq: ");
             Serial.println(int(freqMax2*1));// on adapte avec une erreur de 1.5%
             Serial.print("db:");
             Serial.println(20*log10(freqMaxAMP2));
             
-            // l'erreur de 1.5% inferieur est sans doute du a la clock
-            // de la carte qui n'ai pas presise
+            // l'erreur de 12% inferieur est sans doute du a la clock
+            // de la carte qui n'ai pas presise , aucune idee de pourqoui
             
             // on a une frequence precise a 4%(normalement toujours en dessous)
             
