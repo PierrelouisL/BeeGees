@@ -28,7 +28,7 @@ void init_HX711(){
 
 // --- Version final quand on saura le offset de la ruche 
 void init_HX711(){
-  scale.begin(D7, D6);  // LOADCELL_DOUT_PIN = D7, LOADCELL_SCK_PIN = D6;
+  scale.begin(D6, D5);      // LOADCELL_DOUT_PIN = D7, LOADCELL_SCK_PIN = D6;
   scale.set_scale(Offset);
 }
   

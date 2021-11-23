@@ -8,10 +8,10 @@
 
 // Temperature.cpp global value
   // DHT Sensor
-  #define DHTPIN 4 // broche ou l'on a branche le capteur
+  #define DHTPIN 7      // Pin DHT22
   #define DHTTYPE DHT22 // DHT 22 (AM2302)
   // DS18B20 Sensor
-  #define PIN_BUS 5
+  #define PIN_BUS 4     // Pin DS18B20 (sonde)
   #define MAXIMWIRE_EXTERNAL_PULLUP
 
 // Sigfox.cpp global value
@@ -28,7 +28,8 @@ typedef struct data{
   float Pression;
   float Poids;
   float Luminosite;
-  float SON;  
+  float EtatAbeilles;  
+  int FreqzAbeilles[2];  
 }data;
 
 /* ----------------------------------------------------
@@ -36,7 +37,8 @@ typedef struct data{
  */
 void data_10(data *data);
 void Buffer_creation(data data, int *buffer_int_sigfox);
-void PrintSigfox(data data, int buffer_int_sigfox[]);
+void PrintSigfox(int buffer_int_sigfox[]);
+void PrintSerial(data data);
 
 
 /* ----------------------------------------------------
@@ -75,7 +77,14 @@ void UNsleepcard();
  */
 void init_sensor_board();
 void get_sensor_board(data *data_pression);
-
+void get_luminosite(data *data_Luminosite);
+/* ----------------------------------------------------
+ *  Fonctions liées à FFT.cpp
+ */
+void init_PDM();
+void get_Abeilles(data *data_Abeilles);
+void unsleepFFT();
+void sleepFFT();
 #endif
 
 /*classe à implémenter quand pas flemme
