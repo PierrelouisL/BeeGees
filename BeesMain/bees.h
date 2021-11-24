@@ -5,6 +5,8 @@
 //  Variables globales et librairies 
 
 #include <Arduino_HTS221.h>
+#include "mbed.h"
+
 
 // Temperature.cpp global value
   // DHT Sensor
@@ -18,6 +20,13 @@
 #define NB_bits 96
 // ----------------------------------------------------
 
+typedef enum Power_saving_state{
+  ALL_SENSORS_ON,
+  NO_ANALOG, // No Battery + No Light check
+  NO_BOARD_SENSORS, // No analog + no board sensors except Temp
+  ESSENTIALS // Only 2 DS18B20 sensors and Weight
+}Power_saving_state;
+
 typedef struct data{
   float Temp_couvain;  
   float Temp_cote[2];
@@ -30,6 +39,7 @@ typedef struct data{
   float Luminosite;
   float EtatAbeilles;  
   int FreqzAbeilles[2];  
+  Power_saving_state pwr;
 }data;
 
 /* ----------------------------------------------------
@@ -78,6 +88,7 @@ void UNsleepcard();
 void init_sensor_board();
 void get_sensor_board(data *data_pression);
 void get_luminosite(data *data_Luminosite);
+
 /* ----------------------------------------------------
  *  Fonctions liées à FFT.cpp
  */
