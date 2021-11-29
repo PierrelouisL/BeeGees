@@ -10,7 +10,7 @@ void data_10(data *data){
   data->Humi_ambiant     = data->Humi_ambiant*10;
   data->Pression         = data->Pression;
   data->Poids            = data->Poids*10;  
-  data->Luminosite       = data->Luminosite; // à changer
+  data->Luminosite       = data->Luminosite/100; // à changer
   data->EtatAbeilles     = data->EtatAbeilles; // à changer
 }
 
@@ -21,7 +21,7 @@ void Buffer_creation(data data, int *buffer_int_sigfox){
                                  (int)data.Poids, (int)data.Luminosite, (int)data.EtatAbeilles};
   int nb_bit_value_array[11] = { 9, 9, 9, 9, 
                                  10, 10, 10, 10,
-                                 11, 7,2};
+                                 11, 7, 2};
   int buffer_bit_sigfox[NB_bits];
   int end_buffer = NB_bits-1;
 
