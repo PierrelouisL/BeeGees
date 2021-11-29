@@ -26,7 +26,17 @@ void get_sensor_board(data *data_board){
 
 void get_luminosite(data *data_Luminosite){
   float R1 = 10000.0;
-  float Vin = analogRead(A5); // Un entier pour contenir une valeur variant de 0 à 1023
-  float R0 = (R1*3.3/Vin) - R1;
-  data_Luminosite->Luminosite = 500/(R0/1000);
+  float R0;
+  float Vin;
+  float temp = 0.0;
+  float Lumen = 0.0;
+  
+  for(int i=0; i<10; i++){
+    Vin = analogRead(A5); // Un entier pour contenir une valeur variant de 0 à 1023  
+    Vin = Vin * (3.3/1024.0);  
+    R0 = (R1*3.3/Vin) - R1;  
+    temp = 500/(R0/1000);
+    Lumen += temp;
+  }
+  data_Luminosite->Luminosite = Lumen/(10);
 }
