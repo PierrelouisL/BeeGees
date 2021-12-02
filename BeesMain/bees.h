@@ -10,7 +10,7 @@
 
 // Temperature.cpp global value
   // DHT Sensor
-  #define DHTPIN 7      // Pin DHT22
+  #define DHTPIN 3 //7      // Pin DHT22
   #define DHTTYPE DHT22 // DHT 22 (AM2302)
   // DS18B20 Sensor
   #define PIN_BUS 4     // Pin DS18B20 (sonde)
@@ -80,6 +80,7 @@ void testGPS(void);
 void init_batterie();
 void get_batterie(data *data_batterie);
 void sleepcard();
+void Ronflex_Lvl_Sleep();
 void UNsleepcard();
 
 /* ----------------------------------------------------
@@ -95,7 +96,7 @@ void get_luminosite(data *data_Luminosite);
 void init_PDM();
 void get_Abeilles(data *data_Abeilles);
 void unsleepFFT();
-void sleepFFT();
+//void sleepFFT();
 #endif
 
 /*classe à implémenter quand pas flemme

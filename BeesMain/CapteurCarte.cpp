@@ -19,9 +19,14 @@ void get_sensor_board(data *data_board){
   if(!BARO.begin()){
     BARO.begin();
   }
+  delay(800);
+  
   data_board->Pression = BARO.readPressure();
   data_board->Temp_ambiant = HTS.readTemperature();
   data_board->Humi_ambiant = HTS.readHumidity();
+
+  HTS.end();
+  BARO.end();
 }
 
 void get_luminosite(data *data_Luminosite){

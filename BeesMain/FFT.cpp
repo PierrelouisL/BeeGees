@@ -27,11 +27,13 @@ void get_Abeilles(data *data_Abeilles){
   else{
     data_Abeilles->EtatAbeilles = 0;
   }
+
+  PDM.end();
 }
 
 void unsleepFFT(){
   PDM.begin(1, Fmax);
 }
-void sleepFFT(){
+/*void sleepFFT(){
   PDM.end();
- }
+ }*/
