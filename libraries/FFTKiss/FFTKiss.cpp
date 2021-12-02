@@ -6,7 +6,7 @@
 
 #include <PDM.h>
 
-#define Size_TAB 2048 
+#define Size_TAB 1024 
 #define Fmax 16000
 
 // Fe max = 16000Hz max du capteur
@@ -61,7 +61,7 @@ void FftReal(){
   }
   else{
     Serial.println("not enough memory?\n");
-    exit(-1);
+    free(cfg);
   }
 }
 
@@ -88,8 +88,8 @@ deuxFreqz MaxFreq(){
 		freqAmpli2 = ampliTemp;
     }
   }               
-  deux_freqz.Freqz1=int(deux_freqz.Freqz1*(Fmax/Size_TAB))*1.12;  
-  deux_freqz.Freqz2=int(deux_freqz.Freqz2*(Fmax/Size_TAB))*1.12;
+  deux_freqz.Freqz1=int(deux_freqz.Freqz1*(Fmax/Size_TAB))*1.04;  
+  deux_freqz.Freqz2=int(deux_freqz.Freqz2*(Fmax/Size_TAB))*1.04;
   
   return deux_freqz;
 }
