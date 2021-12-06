@@ -37,7 +37,8 @@ void get_weight(data *data_weight){
   delay(3000);
   if(scale.wait_ready_retry(3, 500)){ 
     data_weight->Poids = scale.get_units(5);
-  }
+    data_weight->Poids = data_weight->Poids * 10;
+  } 
   if(data_weight->Poids < 0){
     data_weight->Poids = 0;
   }
