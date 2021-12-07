@@ -38,7 +38,7 @@ void get_luminosite(data *data_Luminosite){
   
   for(int i=0; i<10; i++){
     Vin = analogRead(A5); // Un entier pour contenir une valeur variant de 0 à 1023  
-    Vin = Vin * (3.3/1024.0);  
+    Vin = Vin * (3.3/1023.0);  
     R0 = (R1*3.3/Vin) - R1;  
     temp = 500/(R0/1000);
     Lumen += temp;

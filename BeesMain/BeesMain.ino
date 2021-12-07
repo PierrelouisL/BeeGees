@@ -5,6 +5,7 @@ data Alldata = { 0, {0, 0}, 0, 0, 0, 0, 0, 0, 0, 0, {0, 0}, ALL_SENSORS_ON};
 
 void setup()
 {
+  LedON();
   delay(3000);
   //Serial.begin(9600);
   Serial1.begin(9600);
@@ -14,7 +15,7 @@ void setup()
   init_batterie();
   init_PDM();
   delay(3000);
-  Serial1.write("AT$SF=0x12345678\n\r");
+  LedOFF();
 }
 
 void loop() {
@@ -38,7 +39,7 @@ void loop() {
       get_weight(&Alldata);
       get_DHT22(&Alldata);
       get_DS18B20(&Alldata);
-      get_sensor_board(&Alldata);
+      get_sensor_board(&Alldata);   
       get_Abeilles(&Alldata);
       break;
     case NO_BOARD_SENSORS:
@@ -56,15 +57,13 @@ void loop() {
   
   data_10(&Alldata);                              // Adapter les unités des données
   Buffer_creation(Alldata, buffer_int_sigfox);    // Création du buffer pour l'envoie Sigfox
-
   PrintSigfox(buffer_int_sigfox);                 // Print sur Sigfox  
   //PrintSerial(Alldata);                           // Print sur le pc
   //Serial.println("Fin du print");
 
-  //sleepFFT();
   sleepcard();
   //Ronflex_Lvl_Sleep();
-  delay(20000); // 600000 pour 10 mins
+  delay(600000); // 600000 pour 10 mins
   UNsleepcard();
   unsleepFFT();
 }

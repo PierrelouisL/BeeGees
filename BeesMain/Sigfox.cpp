@@ -9,7 +9,7 @@ void data_10(data *data){
   data->Humi_couvain     = data->Humi_couvain*10;
   data->Humi_ambiant     = data->Humi_ambiant*10;
   data->Pression         = data->Pression;
-  data->Poids            = data->Poids*10;  
+  data->Poids            = data->Poids;  
   data->Luminosite       = data->Luminosite/100; // à changer
   data->EtatAbeilles     = data->EtatAbeilles; // à changer
 }

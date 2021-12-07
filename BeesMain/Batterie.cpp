@@ -6,7 +6,6 @@ int ledPin = 13;          // select the pin for the LED
 void init_batterie() {
   // declare the ledPin as an OUTPUT:
   pinMode(ledPin, OUTPUT);
-  digitalWrite(LED_PWR, LOW);
 
   //------- DISABLE CRYPTOCELL ---------//
   NRF_CRYPTOCELL->ENABLE = 0;
@@ -85,4 +84,16 @@ void UNsleepcard(){
   digitalWrite(PIN_ENABLE_SENSORS_3V3, HIGH); // turn on sensors
   digitalWrite(PIN_ENABLE_I2C_PULLUP, HIGH);
   Serial1.write("AT$P=\n\r");
+}
+
+void LedON(){
+  digitalWrite(LED_PWR, LOW);
+  pinMode(22, OUTPUT);
+  pinMode(24, OUTPUT);
+  pinMode(22, HIGH);
+  pinMode(24, HIGH);
+}
+void LedOFF(){
+  pinMode(22, LOW);
+  pinMode(24, LOW);
 }
