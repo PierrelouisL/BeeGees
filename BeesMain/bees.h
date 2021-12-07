@@ -40,6 +40,7 @@ typedef struct data{
   float EtatAbeilles;  
   int FreqzAbeilles[2];  
   Power_saving_state pwr;
+  int _delay;
 }data;
 
 /* ----------------------------------------------------
@@ -60,6 +61,7 @@ void get_weight(data *data_weight);
 /* ----------------------------------------------------
  *  Fonctions liées à Bluetooth.cpp
  */
+void BLEInit();
 void testBluetooth(void);
 
 /* ----------------------------------------------------
