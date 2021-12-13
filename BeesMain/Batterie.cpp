@@ -21,26 +21,30 @@ void init_batterie() {
 }
 
 void get_batterie(data *data_batterie) {
-  float voltage = analogRead(Pin_Batterie); //* (3.3 / 1023.0) * 100;
+  float voltage[10];
+  double voltage_som = 0;
+  float voltage_moy = 0;
+  for(int i = 0; i < 10; i++){
+    voltage[i] = analogRead(Pin_Batterie) * (3.3 / 1023.0) * 100;
+    voltage_som += voltage[i];
+  }
+  voltage_moy = voltage_som / 10;
 
-  Serial.print("VOLTAGE = ");
-  Serial.println(voltage);
-  float test = voltage *2.1111-543.89;
-  Serial.print("TEST = ");
-  Serial.println(test);
   /*if(voltage < 257.65){
     voltage = 258;
   }*/
-  data_batterie->Batterie = voltage;
+  data_batterie->Batterie = voltage_moy;
 }
 
 void sleepcard(){
+  //digitalWrite(D2, LOW);
   digitalWrite(PIN_ENABLE_SENSORS_3V3, LOW);  // turn off sensors
   digitalWrite(PIN_ENABLE_I2C_PULLUP, LOW);
   Serial1.write("AT$P=1");
 }
 
 void Ronflex_Lvl_Sleep(){
+  
   digitalWrite(PIN_ENABLE_SENSORS_3V3, LOW);  // turn off sensors
   digitalWrite(PIN_ENABLE_I2C_PULLUP, LOW);
   Serial1.write("AT$P=1");
@@ -80,7 +84,8 @@ void UNsleepcard(){
   NRF_TWIM1->TASKS_STOP = 0;
   NRF_TWIM1->ENABLE = 1;*/
   //NRF_SAADC->ENABLE = 1;
-  
+  //digitalWrite(D2, HIGH); // Re-activate external captors
+  init_HX711();
   digitalWrite(PIN_ENABLE_SENSORS_3V3, HIGH); // turn on sensors
   digitalWrite(PIN_ENABLE_I2C_PULLUP, HIGH);
   Serial1.write("AT$P=\n\r");
