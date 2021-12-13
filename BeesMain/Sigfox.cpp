@@ -64,13 +64,27 @@ void Buffer_creation(data data, int *buffer_int_sigfox){
 
 void PrintSigfox(int buffer_int_sigfox[]){        
   char buffer_sigfox[50];
-  sprintf(buffer_sigfox, "AT$SF=%04x%04x%04x%04x%04x%04x\n\r", buffer_int_sigfox[0], buffer_int_sigfox[1], buffer_int_sigfox[2], buffer_int_sigfox[3], buffer_int_sigfox[4], buffer_int_sigfox[5]);
+  sprintf(buffer_sigfox, "AT$SF=%04x%04x%04x%04x%04x%04x\r\n", buffer_int_sigfox[0], buffer_int_sigfox[1], buffer_int_sigfox[2], buffer_int_sigfox[3], buffer_int_sigfox[4], buffer_int_sigfox[5]);
   Serial1.write(buffer_sigfox);
 }
 
 void PrintSerial(data data){
   // Pour une verification depuis le pc
 
+  switch(data.pwr){
+    case ALL_SENSORS_ON:
+      Serial.println("Capteur lets go all");
+      break;
+    case NO_ANALOG:
+      Serial.println("Capteur lets go NO_ANALOG");
+      break;
+    case NO_BOARD_SENSORS:
+      Serial.println("Capteur lets go NO_BOARD_SENSORS");
+      break;  
+    case ESSENTIALS:
+      Serial.println("Capteur lets go ESSENTIALS");
+      break;  
+  }
   Serial.println("---------------------------------------------------------");
   Serial.print("Donnée            | ");  Serial.println("Valeur");
   Serial.print("Temp_couvain      | ");  Serial.println(data.Temp_couvain);
@@ -84,8 +98,9 @@ void PrintSerial(data data){
   Serial.print("Pression          | ");  Serial.print(data.Pression);                    Serial.println("kPa");
   Serial.print("Luminosite        | ");  Serial.println(data.Luminosite);
   Serial.print("Freqz             | ");  Serial.print(data.FreqzAbeilles[0]);            Serial.print("Hz & ");  Serial.print(data.FreqzAbeilles[1]);               Serial.println("Hz");
-  Serial.print("Etat abeilles     | ");  Serial.print(data.EtatAbeilles);   Serial.println(" --> 3: Essaimage, 2: Danger, 1: Normal, 0: Sans donnée");
+  Serial.print("Etat abeilles     | ");  Serial.print(data.EtatAbeilles);                Serial.println(" --> 3: Essaimage, 2: Danger, 1: Normal, 0: Sans donnée");
   Serial.println("---------------------------------------------------------");
+  Serial.println("Fin du print");
 }
 // Sigfox CallBack V2 + pression, son, modif de nb de bit
 // son:0:uint:2::7 luminosite:0:uint:7::5 poids:1:uint:11::6 pression:2:uint:10::3 humidity_ambiant:3:uint:10::1 humidity_couvain:5:uint:10::7 temperature_ambiant:6:uint:10::5 batterie:7:uint:9::3 temp_cote2:8:uint:9::2 temp_cote1:9:uint:9::1 temp_couvain:10:uint:9::0
