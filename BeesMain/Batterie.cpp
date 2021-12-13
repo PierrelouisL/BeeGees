@@ -85,6 +85,7 @@ void UNsleepcard(){
   NRF_TWIM1->ENABLE = 1;*/
   //NRF_SAADC->ENABLE = 1;
   //digitalWrite(D2, HIGH); // Re-activate external captors
+  
   init_HX711();
   digitalWrite(PIN_ENABLE_SENSORS_3V3, HIGH); // turn on sensors
   digitalWrite(PIN_ENABLE_I2C_PULLUP, HIGH);
