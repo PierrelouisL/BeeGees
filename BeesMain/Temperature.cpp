@@ -29,7 +29,7 @@ void get_DS18B20(data *data_tempCote){
           if (address.GetModelCode() == MaximWire::DS18B20::MODEL_CODE){
             MaximWire::DS18B20 device(address);
             temp = device.GetTemperature<float>(bus);
-            data_tempCote->Temp_cote[nbr_sensors - 1] = temp + 2;
+            data_tempCote->Temp_cote[nbr_sensors - 1] = temp;
             device.Update(bus);
           }
       nbr_sensors++;
@@ -39,6 +39,6 @@ void get_DS18B20(data *data_tempCote){
 }
 
 void get_DHT22(data *data_DHT){
-  data_DHT->Temp_couvain = dht.readTemperature() + 2;  
-  data_DHT->Humi_couvain = dht.readHumidity() - 2; 
+  data_DHT->Temp_couvain = dht.readTemperature();  
+  data_DHT->Humi_couvain = dht.readHumidity(); 
 }

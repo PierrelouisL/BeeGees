@@ -36,5 +36,7 @@ void get_Abeilles(data *data_Abeilles){
 }
 
 void unsleepFFT(){
-  PDM.begin(1, Fmax);
+  if(!PDM.begin(1, Fmax)){
+    Serial.println("Fail to start FFT");
+  }
 }
