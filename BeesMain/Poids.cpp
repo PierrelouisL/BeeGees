@@ -4,11 +4,11 @@
 
 HX711 scale;
 
-float Offset = 1936859.00; // Offset pour 66kg
+float Offset = 1931294.00; // Offset pour 66kg
 
-/*
-float Weight_ref = 65; // Poids de référence, à enelevé
-float weight;
+
+float Weight_ref = 65; // Poids de référence, à enlever
+/*float weight;
 
 void init_HX711(){
   scale.begin(D2, D3);  // LOADCELL_DOUT_PIN = D2, LOADCELL_SCK_PIN = D3;
@@ -29,7 +29,7 @@ void init_HX711(){
 // --- Version final quand on saura le offset de la ruche 
 void init_HX711(){
   scale.begin(D6, D5);      // LOADCELL_DOUT_PIN = D7, LOADCELL_SCK_PIN = D6;
-  scale.set_scale(Offset);
+  scale.set_scale(Offset/Weight_ref);
 }
   
 void get_weight(data *data_weight){
