@@ -57,11 +57,10 @@ void FftReal(){
 
   if ((cfg = kiss_fftr_alloc(Size_TAB, 0/*is_inverse_fft*/, NULL, NULL)) != NULL){
     kiss_fftr(cfg, in, out);
-    free(cfg); 
+    free(cfg);
   }
   else{
     Serial.println("not enough memory?\n");
-    free(cfg);
   }
 }
 

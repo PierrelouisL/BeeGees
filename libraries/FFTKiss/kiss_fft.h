@@ -41,7 +41,6 @@ extern "C" {
  -- a multi-dimensional FFT
  -- a command-line utility to perform ffts
  -- a command-line utility to perform fast-convolution filtering
-
  Then see kfc.h kiss_fftr.h kiss_fftnd.h fftutil.c kiss_fastfir.c
   in the tools/ directory.
 */
@@ -142,7 +141,7 @@ void KISS_FFT_API kiss_fft_stride(kiss_fft_cfg cfg,const kiss_fft_cpx *fin,kiss_
  your compiler output to call this before you exit.
 */
 void KISS_FFT_API kiss_fft_cleanup(void);
-	
+
 
 /*
  * Returns the smallest integer k, such that k>=n and k has only "fast" factors (2,3,5)
