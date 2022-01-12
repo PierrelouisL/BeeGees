@@ -8,7 +8,7 @@ void setup()
   LedON();
   digitalWrite(D2, HIGH);
   delay(2000);
-  //Serial.begin(9600);
+  Serial.begin(9600);
   Serial1.begin(9600);
 
   // Init all the sensor
@@ -60,16 +60,15 @@ void loop() {
       get_DS18B20(&Alldata);
       break;  
   }
-  
+
+  //PrintSerial(Alldata);                           // Print sur le pc
   data_10(&Alldata);                              // Adapter les unités des données
   Buffer_creation(Alldata, buffer_int_sigfox);    // Création du buffer pour l'envoie Sigfox
   PrintSigfox(buffer_int_sigfox);                 // Print sur Sigfox  
-  //PrintSerial(Alldata);                           // Print sur le pc
   
   sleepcard();
-  //Ronflex_Lvl_Sleep();
   delay(595000); // 600000 pour 10 mins
   UNsleepcard();
-  unsleepFFT();
+  //unsleepFFT();
   delay(5000);
 }
