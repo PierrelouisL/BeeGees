@@ -27,6 +27,11 @@ typedef enum Power_saving_state{
   ESSENTIALS // Only 2 DS18B20 sensors and Weight
 }Power_saving_state;
 
+typedef enum States{
+  INIT,
+  SEND_VAL
+}States;
+
 typedef struct data{
   float Temp_couvain;  
   float Temp_cote[2];
@@ -62,8 +67,9 @@ void get_weight(data *data_weight);
  *  Fonctions liées à Bluetooth.cpp
  */
 void BLEInit();
-void testBluetooth(void);
-
+void BLE_Poll();
+void BLE_end();
+void setBLEValues();
 /* ----------------------------------------------------
  *  Fonctions liées à Temperature.cpp
  */
