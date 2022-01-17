@@ -22,10 +22,11 @@
 
 typedef enum Power_saving_state{
   ALL_SENSORS_ON,
-  NO_ANALOG, // No Battery + No Light check
-  NO_BOARD_SENSORS, // No analog + no board sensors except Temp
-  ESSENTIALS // Only 2 DS18B20 sensors and Weight
+  NO_ANALOG, // 30mins délai + Poids + Temp/Humidité ruche + 2Temp ruche
+  NO_BOARD_SENSORS, // 20 mins délai + Poids + + Temp/Humidité ruche + 2Temp ruche + bat
+  ESSENTIALS // 1h délai + 2 DS18B20 + Poids
 }Power_saving_state;
+
 
 typedef struct data{
   float Temp_couvain;  
