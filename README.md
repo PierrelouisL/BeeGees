@@ -1,4 +1,4 @@
-# Let it bee
+# Bee Gees
 ## _Learn to know you bees_
 
 This full project documentation is available on [Hackster.io](https://www.hackster.io/442967/beehive-monitor-using-an-arduino-33-ble-sense-19ee10).
