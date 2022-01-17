@@ -1,6 +1,7 @@
 #include "bees.h"
 #include "mbed.h"
-
+#define INIT 1
+#define SEND_VAL 2
 data Alldata = { 0, {0, 0}, 0, 0, 0, 0, 0, 0, 0, 0, {0, 0}, ALL_SENSORS_ON};
 int Main_state = INIT; 
 
@@ -94,15 +95,15 @@ void loop() {
       PrintSerial(Alldata);                         // Print sur le pc
       data_10(&Alldata);                              // Adapter les unités des données
       Buffer_creation(Alldata, buffer_int_sigfox);    // Création du buffer pour l'envoie Sigfox
-      PrintSigfox(buffer_int_sigfox);                 // Print sur Sigfox  
+      //PrintSigfox(buffer_int_sigfox);                 // Print sur Sigfox  
       
       sleepcard();
       delay(Alldata._delay - 5000);
       UNsleepcard();
       if(ALL_SENSORS_ON){                          // Si mode avec FFT alors on la réactive
-        //unsleepFFT();
+        unsleepFFT();
       }
-      delay(5000);
+      delay(10000);
   }
   
 }

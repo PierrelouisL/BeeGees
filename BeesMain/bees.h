@@ -67,7 +67,9 @@ void get_weight(data *data_weight);
  *  Fonctions liées à Bluetooth.cpp
  */
 void BLEInit();
-void testBluetooth(void);
+void setBLEValues();
+void BLE_end();
+void BLE_Poll();
 
 /* ----------------------------------------------------
  *  Fonctions liées à Temperature.cpp
