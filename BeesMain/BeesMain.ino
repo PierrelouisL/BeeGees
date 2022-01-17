@@ -48,7 +48,7 @@ void loop() {
     case INIT:
       // We first enter here here we send data with BLE! 
       // Every sensor is sent to user
-
+      Serial.println("On entre");
       if (currentMillis - previousMillis > interval) { // We only get value every second otherwise it would waste too much power
         previousMillis = currentMillis;
         Alldata._delay = 300000; // we stay 5mins in ble mode 
@@ -57,13 +57,15 @@ void loop() {
         get_DS18B20(&Alldata);
         get_batterie(&Alldata);
         get_sensor_board(&Alldata);
+        get_luminosite(&Alldata);
+        PrintSerial(Alldata);                         // Print sur le pc
       }
-      if(currentMillis >= Alldata._delay){
+      if(currentMillis > Alldata._delay){
         //BLE_end();
         Main_state = SEND_VAL;
         Alldata._delay = 595000;
       }
-      BLE_Poll();
+      //BLE_Poll();
       break;
     case SEND_VAL:
       switch(Alldata.pwr){
@@ -75,7 +77,7 @@ void loop() {
           get_batterie(&Alldata);
           get_sensor_board(&Alldata);
           get_Abeilles(&Alldata);
-          //get_luminosite(&Alldata);
+          get_luminosite(&Alldata);
           break;
         case NO_BOARD_SENSORS:
           Alldata._delay = 1200000; // 20 mins délai
@@ -97,7 +99,7 @@ void loop() {
           break;  
       }
     
-      //PrintSerial(Alldata);                         // Print sur le pc
+      PrintSerial(Alldata);                         // Print sur le pc
       data_10(&Alldata);                              // Adapter les unités des données
       Buffer_creation(Alldata, buffer_int_sigfox);    // Création du buffer pour l'envoie Sigfox
       PrintSigfox(buffer_int_sigfox);                 // Print sur Sigfox  
