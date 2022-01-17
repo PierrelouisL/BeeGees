@@ -8,7 +8,7 @@
 #define Size_TAB 2048 
 #define Fmax 16000
 
-typedef struct deuxFreqz{
+/*typedef struct deuxFreqz{
 	int Freqz1;
 	int Freqz2;
 }deuxFreqz;
@@ -16,4 +16,4 @@ typedef struct deuxFreqz{
 void get_sample();
 void check_sample_ready();
 void FftReal();
-deuxFreqz MaxFreq();
+deuxFreqz MaxFreq();*/

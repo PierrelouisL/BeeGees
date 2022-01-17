@@ -6,8 +6,8 @@
 
 #include <PDM.h>
 
-#define Size_TAB 1024 
-#define Fmax 16000
+/*#define Size_TAB 1024 
+#define Fmax 16000*/
 
 // Fe max = 16000Hz max du capteur
 // Fe = 32000Hz
@@ -30,7 +30,7 @@
 //  N=1024
 //  Fe=31250 Hz Te=32us Fmax=15625 Hz
 
-
+/*
 short sampleBuffer[Size_TAB];    // buffer to read samples into, each sample is 16-bits
 volatile int samplesRead; // number of samples read
 
@@ -47,23 +47,23 @@ void get_sample(){
 void check_sample_ready(){
   PDM.onReceive(get_sample); // configure the data receive callback
 }
-
-void FftReal(){
+*/
+/* void FftReal(){
   for(int ji;ji<Size_TAB;ji++){
     in[ji]=sampleBuffer[ji];
   }
   
   kiss_fftr_cfg cfg;
 
-  if ((cfg = kiss_fftr_alloc(Size_TAB, 0/*is_inverse_fft*/, NULL, NULL)) != NULL){
-    kiss_fftr(cfg, in, out);
-    free(cfg);
-  }
-  else{
-    Serial.println("not enough memory?\n");
-  }
-}
-
+  if ((cfg = kiss_fftr_alloc(Size_TAB, 0/*is_inverse_fft*//*, NULL, NULL)) != NULL){*/
+//    kiss_fftr(cfg, in, out);
+//    free(cfg);
+//  }
+//  else{
+//    Serial.println("not enough memory?\n");
+//  }
+//} */
+/*
 deuxFreqz MaxFreq(){
   
   deuxFreqz deux_freqz;
@@ -79,7 +79,7 @@ deuxFreqz MaxFreq(){
   for(int fm = 1; fm < Size_TAB/2; fm++){
     ampliTemp = sqrt(out[fm].r*out[fm].r + out[fm].i*out[fm].i);
     if(ampliTemp > freqAmpli1){ /* on regarde les amplitudes et on gardes la plus haute */
-        deux_freqz.Freqz1 = fm;
+        /*deux_freqz.Freqz1 = fm;
         freqAmpli1 = ampliTemp;
     }    
 	if(ampliTemp > freqAmpli2 && ampliTemp < freqAmpli1){// on regarde les amplitudes et on gardes la 2m plus haute
@@ -92,3 +92,4 @@ deuxFreqz MaxFreq(){
   
   return deux_freqz;
 }
+*/
