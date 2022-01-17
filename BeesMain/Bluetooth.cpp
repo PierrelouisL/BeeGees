@@ -116,7 +116,8 @@ void BLEInit(){
 
   
   // Setting the Peripheral device name
-  BLE.setLocalName("BHE");
+  BLE.setLocalName("Bee Gees");
+  BLE.setDeviceName("Bee Gees");
 
   BLE.setAdvertisedService(environmentalSensingService);
   environmentalSensingService.addCharacteristic(optiStatusCharacteristic);
@@ -143,5 +144,8 @@ void BLE_end(){
 }
 
 void BLE_Poll(){
+  Serial.println("before");
+  BLE.poll();
+  Serial.println("Updating");
   setBLEValues();
 }
