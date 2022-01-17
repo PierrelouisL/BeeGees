@@ -27,11 +27,6 @@ typedef enum Power_saving_state{
   ESSENTIALS // Only 2 DS18B20 sensors and Weight
 }Power_saving_state;
 
-typedef enum States{
-  INIT,
-  SEND_VAL
-}States;
-
 typedef struct data{
   float Temp_couvain;  
   float Temp_cote[2];
@@ -48,6 +43,10 @@ typedef struct data{
   int _delay;
 }data;
 
+typedef struct deuxFreqz{
+  int Freqz1;
+  int Freqz2;
+}deuxFreqz;
 /* ----------------------------------------------------
  *  Fonctions liées à Sigfox.cpp
  */
@@ -67,9 +66,8 @@ void get_weight(data *data_weight);
  *  Fonctions liées à Bluetooth.cpp
  */
 void BLEInit();
-void BLE_Poll();
-void BLE_end();
-void setBLEValues();
+void testBluetooth(void);
+
 /* ----------------------------------------------------
  *  Fonctions liées à Temperature.cpp
  */
@@ -104,7 +102,10 @@ void get_luminosite(data *data_Luminosite);
  *  Fonctions liées à FFT.cpp
  */
 void init_PDM();
+void get_sample();
+void FftReal();
 void get_Abeilles(data *data_Abeilles);
+deuxFreqz MaxFreq();
 void unsleepFFT();
 #endif
 
