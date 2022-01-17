@@ -1,11 +1,11 @@
 #include "bees.h"
 
 void data_10(data *data){
-  data->Temp_couvain     = (data->Temp_couvain+20)*10;  
-  data->Temp_cote[0]     = (data->Temp_cote[0]+20)*10;
-  data->Temp_cote[1]     = (data->Temp_cote[1]+20)*10;
+  data->Temp_couvain     = (data->Temp_couvain+15)*10;  
+  data->Temp_cote[0]     = (data->Temp_cote[0]+15)*10;
+  data->Temp_cote[1]     = (data->Temp_cote[1]+15)*10;
   data->Batterie         = data->Batterie;       
-  data->Temp_ambiant     = (data->Temp_ambiant+20)*10;         
+  data->Temp_ambiant     = (data->Temp_ambiant+15)*10;         
   data->Humi_couvain     = data->Humi_couvain*10;
   data->Humi_ambiant     = data->Humi_ambiant*10;
   data->Pression         = data->Pression;
