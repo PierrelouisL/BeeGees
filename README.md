@@ -8,5 +8,6 @@ This full project documentation is available on [Hackster.io](https://www.hackst
 - Follow the instructions on our Hackster article
 - Install the [Arduino IDE](https://www.arduino.cc/en/software).
 - clone this repository
+- Don't forget to put all the librairies in your own libraries file 
 - Add the Arduino nano 33 BLE Sense board on the software 
 - Plug and play! 
